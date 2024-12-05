@@ -14,7 +14,7 @@ const FormularioPelicula = ({ onSubmit, peliculaEditando, setPeliculaEditando })
       setImage(peliculaEditando.image);
       setDate(peliculaEditando.date);
     }
-  }, [peliculaEditando]);  // Solo ejecuta esto si 'peliculaEditando' cambia
+  }, [peliculaEditando]);
 
   // Función para manejar el envío del formulario
   const handleSubmit = (e) => {

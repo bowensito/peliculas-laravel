@@ -9,7 +9,6 @@ const App = () => {
   const [peliculas, setPeliculas] = useState([]);
   const [peliculaEditando, setPeliculaEditando] = useState(null);
 
-  // Cargar las películas desde la API
   useEffect(() => {
     axios.get('https://valuable-francine-laravel-proyecto-d4bd771b.koyeb.app/api/peliculas')
       .then(response => {
@@ -22,7 +21,11 @@ const App = () => {
 
   // Función para agregar nueva película
   const agregarPelicula = (nuevaPelicula) => {
-    axios.post('https://valuable-francine-laravel-proyecto-d4bd771b.koyeb.app/api/peliculas', nuevaPelicula)
+    axios.post('https://valuable-francine-laravel-proyecto-d4bd771b.koyeb.app/api/peliculas', nuevaPelicula, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
       .then(response => {
         setPeliculas([...peliculas, response.data.movie]);
         alert('Película agregada correctamente');
@@ -33,28 +36,19 @@ const App = () => {
       });
   };
 
-  // Función para eliminar una película
-  const borrarPelicula = (id) => {
-    axios.delete(`https://valuable-francine-laravel-proyecto-d4bd771b.koyeb.app/api/peliculas/${id}`)
-      .then(response => {
-        setPeliculas(peliculas.filter(pelicula => pelicula.id !== id));
-        alert('Película eliminada correctamente');
-      })
-      .catch(error => {
-        console.error('Error al eliminar la película:', error);
-        alert('Error al eliminar la película');
-      });
-  };
-
   // Función para editar una película
   const editarPelicula = (id, peliculaActualizada) => {
-    axios.put(`https://valuable-francine-laravel-proyecto-d4bd771b.koyeb.app/api/peliculas/${id}`, peliculaActualizada)
+    axios.put(`https://valuable-francine-laravel-proyecto-d4bd771b.koyeb.app/api/peliculas/{id}`, peliculaActualizada, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
       .then(response => {
         const peliculasActualizadas = peliculas.map(pelicula => 
           pelicula.id === id ? response.data.movie : pelicula
         );
         setPeliculas(peliculasActualizadas);
-        setPeliculaEditando(null); // Reseteamos la película que se está editando
+        setPeliculaEditando(null);
         alert('Película editada correctamente');
       })
       .catch(error => {
@@ -66,14 +60,9 @@ const App = () => {
   return (
     <div className="container-fluid min-vh-100 d-flex justify-content-center align-items-center">
       <div className="container">
-        <h1 className="text-center mb-4">Listado de Películas</h1>
+        <h1 className="text-center mb-4">Listado de películas</h1>
 
-        <FormularioPelicula 
-          onSubmit={agregarPelicula} 
-          peliculaEditando={peliculaEditando} 
-          setPeliculaEditando={setPeliculaEditando} 
-          editarPelicula={editarPelicula} 
-        />
+        <FormularioPelicula onSubmit={agregarPelicula} peliculaEditando={peliculaEditando} setPeliculaEditando={setPeliculaEditando} editarPelicula={editarPelicula} />
 
         <div className="row g-4 mt-4">
           {peliculas.map((pelicula) => (

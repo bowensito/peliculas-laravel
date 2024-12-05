@@ -95,7 +95,7 @@ const FormularioPelicula = ({ onSubmit, peliculaEditando, setPeliculaEditando })
         {/* Botón para enviar el formulario */}
         <div className="mb-3 text-center">
           <button type="submit" className="btn btn-primary">
-            {peliculaEditando ? 'Editar Película' : 'Agregar Película'}
+            {peliculaEditando ? 'Editar película' : 'Agregar película'}
           </button>
         </div>
       </form>

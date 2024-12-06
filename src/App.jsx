@@ -5,6 +5,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
+
 const App = () => {
   const [peliculas, setPeliculas] = useState([]);
   const [peliculaEditando, setPeliculaEditando] = useState(null);
@@ -38,24 +39,42 @@ const App = () => {
 
   // Función para editar una película
   const editarPelicula = (id, peliculaActualizada) => {
-    axios.put(`https://valuable-francine-laravel-proyecto-d4bd771b.koyeb.app/api/peliculas/{id}`, peliculaActualizada, {
+    axios.put(`https://valuable-francine-laravel-proyecto-d4bd771b.koyeb.app/api/peliculas/${id}`, peliculaActualizada, {
       headers: {
         'Content-Type': 'application/json',
       },
     })
-      .then(response => {
-        const peliculasActualizadas = peliculas.map(pelicula => 
+      .then((response) => {
+        // Actualiza el estado con la película editada
+        const peliculasActualizadas = peliculas.map((pelicula) =>
           pelicula.id === id ? response.data.movie : pelicula
         );
         setPeliculas(peliculasActualizadas);
-        setPeliculaEditando(null);
-        alert('Película editada correctamente');
+        alert('Película actualizada correctamente');
       })
-      .catch(error => {
-        console.error('Error al editar la película:', error);
+      .catch((error) => {
+        console.error('Error al editar la película:', error.response?.data || error.message);
         alert('Error al editar la película');
       });
   };
+
+
+  // Función para eliminar una película
+  const eliminarPelicula = (id) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta película?')) {
+      axios.delete(`https://valuable-francine-laravel-proyecto-d4bd771b.koyeb.app/api/peliculas/${id}`)
+        .then(() => {
+          // Filtrar la película eliminada del estado
+          setPeliculas(peliculas.filter((pelicula) => pelicula.id !== id));
+          alert('Película eliminada correctamente');
+        })
+        .catch((error) => {
+          console.error('Error al eliminar la película:', error.response?.data || error.message);
+          alert('Error al eliminar la película');
+        });
+    }
+  };
+  
 
   return (
     <div className="container-fluid min-vh-100 d-flex justify-content-center align-items-center">
@@ -74,7 +93,7 @@ const App = () => {
                 <p><strong>Fecha:</strong> {pelicula.date}</p>
                 <div className="d-flex justify-content-between">
                   <button className="btn btn-warning" onClick={() => setPeliculaEditando(pelicula)}>Editar</button>
-                  <button className="btn btn-danger" onClick={() => borrarPelicula(pelicula.id)}>Eliminar</button>
+                  <button className="btn btn-danger" onClick={() => eliminarPelicula(pelicula.id)}>Eliminar</button>
                 </div>
               </div>
             </div>

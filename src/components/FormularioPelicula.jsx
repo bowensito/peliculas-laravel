@@ -28,9 +28,9 @@ const FormularioPelicula = ({ onSubmit, peliculaEditando, setPeliculaEditando })
 
     // Si se está editando una película, pasar la película editada
     if (peliculaEditando) {
-      onSubmit(peliculaEditando.id, nuevaPelicula);  // Pasar ID y datos actualizados
+      onSubmit(peliculaEditando.id, nuevaPelicula); 
     } else {
-      onSubmit(nuevaPelicula);  // Si no, agregar una nueva película
+      onSubmit(nuevaPelicula);
     }
 
     // Limpiar el formulario después de enviar
@@ -38,7 +38,7 @@ const FormularioPelicula = ({ onSubmit, peliculaEditando, setPeliculaEditando })
     setDirector('');
     setImage('');
     setDate('');
-    setPeliculaEditando(null);  // Limpiar el estado de edición
+    setPeliculaEditando(null);
   };
 
   return (

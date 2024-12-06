@@ -1,5 +1,5 @@
 import React from "react";
-import 
+import PeliculaItem from "./PeliculaItem";
 
 function PeliculaItem({ pelicula, eliminarPelicula }) {
   return (
